@@ -1,28 +1,100 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./assets/style.css">
-    </head>
-    <body>
-        <div class="Start-container">
-            <button class = "startbtn-btn" id = "startbtn"> Click to Start!</button>
-        </div>
 
-        <div id="firstquestion"> What does Js stand for? </div>
-            <ol>
-                <li><button class="answerbtn"> Johnsolution </button></li>
-                <li><button class="answerbtn"> Javascript </button></li>
-                <li><button class="answerbtn"> Java </button></li>
-                <li><button class="answerbtn"> Javasource </button></li>
-            </ol>
-        
-        <!-- Linked jQuery library -->
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="./assets/script.js" async defer></script>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+
+<body>
+    <main>
+        <div class="start-container">
+            <h1> CODE QUIZ!</h1>
+            <p class="timer" id="timer"></p>
+            <p> Try to answer the following code-related questions within the time limit. <br>
+                Keep in mind that incorrect answers will penalize your score/time by ten seconds!
+            </p>
+            <button class="startbtn" id="startbtn"> Click to Start!</button>
+        </div>
+        <div id="hideall">
+            <form class="question" id="firstquestion" data-question="1">
+                <h2>What does Js stand for?</h2>
+                <ol>
+                    <li><button class="answerbtn"><input type="radio" name="q1" value="a" /> Johnsolution </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q1" value="b" /> JavaScript </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q1" value="c" /> Java's </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q1" value="d" /> Javasource </button></li>
+                </ol>
+            </form>
+
+            <form class="question" id="secondquestion" data-question="2">
+                <h2>The condition in an if / else statement is enclosed within _____. </h2>
+                <ol>
+                    <li><button class="answerbtn"><input type="radio" name="q2" value="a" /> quotes </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q2" value="b" /> curly brackets </button>
+                    </li>
+                    <li><button class="answerbtn"><input type="radio" name="q2" value="c" /> parenthesis </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q2" value="d" /> square brackets </button>
+                    </li>
+                </ol>
+            </form>
+
+            <form class="question" id="thirdquestion" data-question="3">
+                <h2>Commonly used data types DO NOT include: </h2>
+                <ol>
+                    <li><button class="answerbtn"><input type="radio" name="q3" value="a" /> strings </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q3" value="b" /> booleans </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q3" value="c" /> alerts </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q3" value="d" /> numbers </button></li>
+                </ol>
+            </form>
+
+            <form class="question" id="fourthquestion" data-question="4">
+                <h2> A very useful tool used during development and debugging for printing content to the debugger is:
+                </h2>
+                <ol>
+                    <li><button class="answerbtn"><input type="radio" name="q4" value="a" /> JavaScript </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q4" value="b" /> terminal/bash </button>
+                    </li>
+                    <li><button class="answerbtn"><input type="radio" name="q4" value="c" /> for looops </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q4" value="d" /> console.log </button></li>
+                </ol>
+            </form>
+
+
+            <form class=question id="fifthquestion" data-question="5">
+                <h2> Arrays in JavaScript can be used to store _____. </h2>
+                <ol>
+                    <li><button class="answerbtn"><input type="radio" name="q5" value="a" /> numbers & strings </button>
+                    </li>
+                    <li><button class="answerbtn"><input type="radio" name="q5" value="b" /> other arrays </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q5" value="c" /> booleans </button></li>
+                    <li><button class="answerbtn"><input type="radio" name="q5" value="d" /> all of the above </button>
+                    </li>
+                </ol>
+            </form>
+        </div>
+    </main>
+
+    <section>
+        <div class="card results">
+            <div class="win-loss-container">
+                <div>
+                    <h2>Wins: <span class="wins">0 </span> </h2>
+                    <h2>Losses: <span class="losses">0</span></h2>
+                </div>
+            </div>
+        </div>
+        <button class="reset"> Reset Score </button>
+    </section>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="./assets/script.js" async defer></script>
+
 </html>
