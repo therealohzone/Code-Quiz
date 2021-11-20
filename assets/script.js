@@ -26,12 +26,14 @@ function startGame() {
   startTimer();
 }
 
+// timerCount -=10 link this to correct or incorrect 
 
-if (hide.style.display === "none") {
-  hide.style.display = "block";
-} else {
-  hide.style.display = "none";
-}
+
+// if (hide.style.display === "none") {
+//   hide.style.display = "block";
+// } else {
+//   hide.style.display = "none";
+// }
 
 
 function winGame() {
@@ -59,6 +61,7 @@ function startTimer() {
     if (timerCount === 0) {
       clearInterval(timer);
       endGame();
+      timerElement.textContent = 'Game Over!'
     }
   }, 1000);
 }
@@ -108,6 +111,7 @@ function resetGame() {
 }
 
 reset.addEventListener("click", resetGame);
+
 
 
 // to look up:
