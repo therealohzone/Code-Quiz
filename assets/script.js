@@ -1,134 +1,129 @@
-var startButton = document.querySelector(".startbtn")
-var timerElement = document.querySelector(".timer")
-var win = document.querySelector(".wins");
-var lose = document.querySelector(".losses");
-var reset = document.querySelector(".reset");
-var hide = document.getElementById("hideall");
+var questionsEl = document.getElementById("questions");
+var timerEl = document.getElementById("time");
+var choicesEl = document.getElementById("choices");
+var submitBtn = document.getElementById("submit");
+var startBtn = document.getElementById("start");
+var initialsEl = document.getElementById("initials");
+var feedbackEl = document.getElementById("feedback");
 
+var currentQuestionIndex = 0;
+var time = questions.length * 15;
+var timerId;
 
+function startQuiz() {
 
-var timer;
-var timerCount;
-var winCount = 0
-var loseCount = 0
-var isWin=false;
-
-
-function init() {
-  getWins();
-  getlosses();
+  var startScreenEl = document.getElementById("start-container");
+  startScreenEl.setAttribute("class", "hide");
+  questionsEl.removeAttribute("class");
+  timerId = setInterval(clockDecrease, 1000);
+  timerEl.textContent = time;
+  getQuestion();
 }
 
-function startGame() {
-  isWin = false;
-  timerCount = 5;
-  startButton.disabled = true;
-  startTimer();
+function getQuestion() {
+
+  var currentQuestion = questions[currentQuestionIndex];
+  var titleEl = document.getElementById("question-title");
+  titleEl.textContent = currentQuestion.title;
+  choicesEl.innerHTML = "";
+  currentQuestion.choices.forEach(function (choice, i) {
+
+    var choiceNode = document.createElement("button");
+    choiceNode.setAttribute("class", "choice");
+    choiceNode.setAttribute("value", choice);
+    choiceNode.textContent = i + 1 + ". " + choice;
+    choiceNode.onclick = questionClick;
+    choicesEl.appendChild(choiceNode);
+  });
 }
 
-// timerCount -=10 link this to correct or incorrect 
+function questionClick() {
 
+  if (this.value !== questions[currentQuestionIndex].answer) {
 
-// if (hide.style.display === "none") {
-//   hide.style.display = "block";
-// } else {
-//   hide.style.display = "none";
-// }
+    time -= 15;
 
-
-function winGame() {
-  winCount++
-  startButton.disabled = false;
-  setWins()
-}
-
-function endGame() {
-  loseCount++
-  startButton.disabled = false;
-  setLosses()
-}
-
-function startTimer() {
-  timer = setInterval(function() {
-    timerElement.textContent = timerCount;
-    timerCount--;
-    if (timerCount >= 0) {
-      if (isWin && timerCount > 0) {
-        clearInterval(timer);
-        winGame();
-      }
+    if (time < 0) {
+      time = 0;
     }
-    if (timerCount === 0) {
-      clearInterval(timer);
-      endGame();
-      timerElement.textContent = 'Game Over!'
-    }
+
+
+    timerEl.textContent = time;
+
+
+    feedbackEl.textContent = "Wrong!";
+  } else {
+
+
+    feedbackEl.textContent = "Correct!";
+  }
+
+
+  feedbackEl.setAttribute("class", "feedback");
+  setTimeout(function () {
+    feedbackEl.setAttribute("class", "feedback hide");
   }, 1000);
-}
+
+  currentQuestionIndex++;
 
 
-
-function setWins() {
-  win.textContent = winCount;
-  localStorage.setItem("winCount", winCount);
-}
-
-function setLosses() {
-  lose.textContent = loseCount;
-  localStorage.setItem("loseCount", loseCount);
-}
-
-startButton.addEventListener("click", startGame);
-
-function getWins() {
-  var storedWins = localStorage.getItem("winCount");
-  if (storedWins === null) {
-    winCount = 0;
+  if (currentQuestionIndex === questions.length) {
+    quizEnd();
   } else {
-    winCount = storedWins;
+    getQuestion();
   }
-  win.textContent = winCount;
 }
 
-function getlosses() {
-  var storedLosses = localStorage.getItem("loseCount");
-  if (storedLosses === null) {
-    loseCount = 0;
-  } else {
-    loseCount = storedLosses;
+function quizEnd() {
+
+  clearInterval(timerId);
+
+
+  var endScreenEl = document.getElementById("end-screen");
+  endScreenEl.removeAttribute("class");
+
+
+  var finalScoreEl = document.getElementById("final-score");
+  finalScoreEl.textContent = time;
+
+
+  questionsEl.setAttribute("class", "hide");
+}
+
+function clockDecrease() {
+  time--;
+  timerEl.textContent = time;
+  if (time <= 0) {
+    quizEnd();
   }
-  lose.textContent = loseCount;
+}
+
+function saveHighscore() {
+
+  var initials = initialsEl.value.trim();
+
+
+  if (initials !== "") {
+
+    var highscores =
+      JSON.parse(window.localStorage.getItem("highscores")) || [];
+
+
+    var newScore = {
+      score: time,
+      initials: initials
+    };
+
+    highscores.push(newScore);
+    window.localStorage.setItem("highscores", JSON.stringify(highscores));
+
+    window.location.href = "highscorespage.html";
+  }
 }
 
 
-init();
 
-function resetGame() {
-  winCount = 0;
-  loseCount = 0;
-  setWins()
-  setLosses()
-}
-
-reset.addEventListener("click", resetGame);
+submitBtn.onclick = saveHighscore;
 
 
-
-// to look up:
-// html data attributes
-
-/*
-When user clicks start button,
-    Quiz starts, Question appears with choices, timer starts, appearance of timer on page
-Click an answer
-    Right or Wrong
-    Right: It displays next question and answers for the question
-          and display CORRECT on bottom of screen, score needs to update
-    Wrong: Wrong on bottom of screen, displays the next question and answers, time subtracts from clock
-Either Finish quiz or Run out of time
-    Finish Quiz: Display score and box to log initials then display on screen once submitted
-
-    setInterval to display timer on top right
-    setTimeout for when timer runs out
-*/
-
+startBtn.onclick = startQuiz;
